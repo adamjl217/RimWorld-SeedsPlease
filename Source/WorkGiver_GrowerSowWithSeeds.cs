@@ -10,7 +10,7 @@ namespace SeedsPlease
     {
         const int SEEDS_TO_CARRY = 25;
 
-        public override Job JobOnCell (Pawn pawn, IntVec3 c)
+        public override Job JobOnCell (Pawn pawn, IntVec3 c, bool forced)
         {
             var job = base.JobOnCell (pawn, c);
 

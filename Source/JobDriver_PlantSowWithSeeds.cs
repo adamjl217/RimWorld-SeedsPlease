@@ -106,11 +106,11 @@ namespace SeedsPlease
                 var plant = (Plant)job.targetC.Thing;
 
                 if (actor.skills != null) {
-                    actor.skills.Learn (SkillDefOf.Growing, 0.22f);
+                    actor.skills.Learn (SkillDefOf.Plants, 0.22f);
                 }
 
                 if (plant.LifeStage != PlantLifeStage.Sowing) {
-                    Log.Error (this + " getting sowing work while not in Sowing life stage.");
+                    Log.Error (this + " getting sowing work while not in Sowing life stage.", false);
                 }
 
                 sowWorkDone += StatExtension.GetStatValue (actor, StatDefOf.PlantWorkSpeed, true);
@@ -127,10 +127,6 @@ namespace SeedsPlease
                         actor.carryTracker.CarriedThing.Destroy (DestroyMode.Cancel);
                     } else {
                         actor.carryTracker.CarriedThing.stackCount--;
-                    }
-
-                    if (actor.story.traits.HasTrait (TraitDefOf.GreenThumb)) {
-                        actor.needs.mood.thoughts.memories.TryGainMemory (ThoughtDefOf.GreenThumbHappy, null);
                     }
 
                     plant.Growth = 0.05f;
@@ -209,7 +205,7 @@ namespace SeedsPlease
                 return false;
             }
 
-            if (GenPlant.AdjacentSowBlocker (plantDefToGrow, cell, map) != null) {
+            if (PlantUtility.AdjacentSowBlocker (plantDefToGrow, cell, map) != null) {
                 return false;
             }
 
@@ -218,7 +214,7 @@ namespace SeedsPlease
                     return false;
                 }
             }
-            return (plantDefToGrow.CanEverPlantAt (cell, map) && GenPlant.GrowthSeasonNow (cell, map));
+            return (plantDefToGrow.CanEverPlantAt (cell, map) && PlantUtility.GrowthSeasonNow (cell, map));
         }
 
         static IPlantToGrowSettable GetPlayerSetPlantForCell (IntVec3 cell, Map map)
@@ -248,9 +244,9 @@ namespace SeedsPlease
             return true;
         }
 
-        public override bool TryMakePreToilReservations ()
+        public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return pawn.Reserve (job.targetA, job, 1, -1, null);
+            return pawn.Reserve(job.targetA, job, 1, -1, null);
         }
     }
 }
