@@ -146,7 +146,7 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products>
-      <HerbalMedicine>1</HerbalMedicine>
+      <MedicineHerbal>1</MedicineHerbal>
     </products>
     <skillRequirements>
       <Crafting>3</Crafting>
